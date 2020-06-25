@@ -167,10 +167,13 @@ public class MD5 {
      * @since ostermillerutils 1.00.00
      */
     public static byte[] getHash(File f) throws IOException {
-        try (InputStream is = new FileInputStream(f)) {
+        InputStream is = null;
+        try {
+            is = new FileInputStream(f);
             byte[] hash = getHash(is);
-            is.close();
             return hash;
+        } finally {
+            if (is != null) is.close();
         }
     }
 
@@ -183,10 +186,13 @@ public class MD5 {
      * @since ostermillerutils 1.00.00
      */
     public static String getHashString(File f) throws IOException {
-        try (InputStream is = new FileInputStream(f)) {
+        InputStream is = null;
+        try {
+          is = new FileInputStream(f);
           String hash = getHashString(is);
-          is.close();
           return hash;
+        } finally {
+            if (is != null) is.close();
         }
     }
 
