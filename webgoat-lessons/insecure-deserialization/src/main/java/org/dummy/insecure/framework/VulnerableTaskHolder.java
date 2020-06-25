@@ -63,6 +63,7 @@ public class VulnerableTaskHolder implements Serializable {
             while ((line = in.readLine()) != null) {
                 log.info(line);
             }
+            p.destroy();
         } catch (IOException e) {
             log.error("IO Exception", e);
         }
