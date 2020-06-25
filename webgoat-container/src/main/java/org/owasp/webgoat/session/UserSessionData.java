@@ -25,6 +25,10 @@ public class UserSessionData {
         return userSessionData.get(key);
     }
 
+    public Object getValueOr(String key, Object fallback) {
+        return userSessionData.getOrDefault(key, fallback);
+    }
+
     public void setValue(String key, Object value) {
         if (userSessionData.containsKey(key)) {
             userSessionData.replace(key,value);
