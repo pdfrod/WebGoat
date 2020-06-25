@@ -54,7 +54,7 @@ public class HammerHead {
     /**
      * Entry point for WebGoat, redirects to the first lesson found within the course.
      */
-    @RequestMapping(path = "/attack", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(path = "/attack", method = RequestMethod.GET)
     public ModelAndView attack(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         return new ModelAndView("redirect:" + "start.mvc" + course.getFirstLesson().getLink());
     }

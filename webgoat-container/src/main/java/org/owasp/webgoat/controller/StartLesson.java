@@ -72,7 +72,7 @@ public class StartLesson {
         return model;
     }
 
-    @RequestMapping(value = {"*.lesson"}, produces = "text/html")
+    @RequestMapping(value = {"*.lesson"}, method = RequestMethod.GET, produces = "text/html")
     public ModelAndView lessonPage(HttpServletRequest request) {
         // I will set here the thymeleaf fragment location based on the resource requested.
         ModelAndView model = new ModelAndView();
