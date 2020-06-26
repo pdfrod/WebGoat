@@ -34,6 +34,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.HttpURLConnection;
 
 
 @RestController
@@ -52,7 +53,7 @@ public class SSRFTask2 extends AssignmentEndpoint {
 
             if (url.matches("http://ifconfig.pro")) {
                 URL u = new URL("http://ifconfig.pro");
-                URLConnection urlConnection = u.openConnection();
+                HttpURLConnection urlConnection = (HttpURLConnection)u.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String inputLine;
 
@@ -60,6 +61,7 @@ public class SSRFTask2 extends AssignmentEndpoint {
                     html.append(inputLine);
                 }
                 in.close();
+                urlConnection.disconnect();
 
                 return success(this)
                         .feedback("ssrf.success")
