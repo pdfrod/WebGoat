@@ -62,7 +62,7 @@ public class StartLesson {
      *
      * @return a {@link ModelAndView} object.
      */
-    @RequestMapping(path = "startlesson.mvc", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(path = "startlesson.mvc", method = RequestMethod.GET)
     public ModelAndView start() {
         ModelAndView model = new ModelAndView();
 

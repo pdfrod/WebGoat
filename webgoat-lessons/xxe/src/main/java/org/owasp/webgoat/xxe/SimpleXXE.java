@@ -87,7 +87,7 @@ public class SimpleXXE extends AssignmentEndpoint {
         return success;
     }
 
-    @RequestMapping(path = "/xxe/tmpdir", consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(path = "/xxe/tmpdir", method = RequestMethod.GET, consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String getWebGoatHomeDirectory() {
         return webGoatHomeDirectory;

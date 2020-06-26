@@ -80,7 +80,7 @@ public class LabelDebugService {
      * @throws Exception unhandled exception
      * @return a {@link org.springframework.http.ResponseEntity} object.
      */
-    @RequestMapping(value = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE, params = KEY_ENABLED)
+    @RequestMapping(value = URL_DEBUG_LABELS_MVC, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, params = KEY_ENABLED)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> setDebuggingStatus(@RequestParam("enabled") Boolean enabled) throws Exception {
         log.debug("Setting label debugging to {} ", labelDebugger.isEnabled());

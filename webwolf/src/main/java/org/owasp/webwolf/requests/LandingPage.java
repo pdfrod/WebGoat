@@ -31,12 +31,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.Callable;
 
+import edu.umd.cs.findbugs.annotations.*;
+
 @Controller
 @Slf4j
 @RequestMapping("/landing/**")
 public class LandingPage {
 
     @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PATCH, RequestMethod.PUT})
+    @SuppressFBWarnings(value = "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING",
+                        justification = "This is a side effects free request")
     public Callable<ResponseEntity<?>> ok(HttpServletRequest request) {
         return () -> {
             log.trace("Incoming request for: {}", request.getRequestURL());

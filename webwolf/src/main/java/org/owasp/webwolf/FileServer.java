@@ -59,7 +59,7 @@ public class FileServer {
     @Value("${server.port}")
     private int port;
 
-    @RequestMapping(path = "/tmpdir", consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(path = "/tmpdir", method = RequestMethod.GET, consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String getFileLocation() {
         return fileLocation;
