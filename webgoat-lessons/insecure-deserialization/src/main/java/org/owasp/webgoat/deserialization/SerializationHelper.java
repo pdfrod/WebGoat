@@ -14,10 +14,14 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.Set;
 
+import edu.umd.cs.findbugs.annotations.*;
+
 public class SerializationHelper {
 
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
+    @SuppressFBWarnings(value="OBJECT_DESERIALIZATION",
+                        justification="Only whitelisted classes are allowed to be deserialized")
     public static Object fromString(String s, Set whitelist) throws IOException,
             ClassNotFoundException {
 
