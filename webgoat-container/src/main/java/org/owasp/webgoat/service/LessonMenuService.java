@@ -42,6 +42,7 @@ import org.owasp.webgoat.users.UserTracker;
 import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class LessonMenuService {
      *
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(path = URL_LESSONMENU_MVC, produces = "application/json")
+    @RequestMapping(path = URL_LESSONMENU_MVC, method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
     List<LessonMenuItem> showLeftNav() {

@@ -11,6 +11,7 @@ import org.owasp.webgoat.users.UserTracker;
 import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class LessonProgressService {
      *
      * @return list of assignments
      */
-    @RequestMapping(value = "/service/lessonoverview.mvc", produces = "application/json")
+    @RequestMapping(value = "/service/lessonoverview.mvc", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<LessonOverview> lessonOverview() {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());

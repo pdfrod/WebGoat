@@ -52,7 +52,7 @@ public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
     private static final String WEBGOAT_USER = "WebGoat";
     private static final List<String> expectedClaims = List.of("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
 
-    @RequestMapping(path = "/JWT/secret/gettoken", produces = MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(path = "/JWT/secret/gettoken", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String getSecretToken() {
         return Jwts.builder()

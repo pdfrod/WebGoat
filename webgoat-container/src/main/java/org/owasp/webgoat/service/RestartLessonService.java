@@ -34,6 +34,7 @@ import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
@@ -45,7 +46,7 @@ public class RestartLessonService {
     private final UserTrackerRepository userTrackerRepository;
     private final Flyway flywayLessons;
 
-    @RequestMapping(path = "/service/restartlesson.mvc", produces = "text/text")
+    @RequestMapping(path = "/service/restartlesson.mvc", method = RequestMethod.GET, produces = "text/text")
     @ResponseStatus(value = HttpStatus.OK)
     public void restartLesson() {
         Lesson al = webSession.getCurrentLesson();
