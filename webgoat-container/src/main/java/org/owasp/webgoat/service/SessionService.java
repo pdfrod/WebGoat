@@ -8,6 +8,7 @@ package org.owasp.webgoat.service;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class SessionService {
      * @param request a {@link javax.servlet.http.HttpServletRequest} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(path = "/service/session.mvc", produces = "application/json")
+    @RequestMapping(path = "/service/session.mvc", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     String showSession(HttpServletRequest request, HttpSession session) {
         StringBuilder sb = new StringBuilder();

@@ -38,7 +38,8 @@ public class ProfileUploadBase extends AssignmentEndpoint {
 
         try {
             uploadDirectory.mkdirs();
-            var uploadedFile = new File(uploadDirectory, fullName);
+            String sanitizedFullName = fullName.replace('/', '_').replace('.', '_');
+            var uploadedFile = new File(uploadDirectory, sanitizedFullName);
             uploadedFile.createNewFile();
             FileCopyUtils.copy(file.getBytes(), uploadedFile);
 

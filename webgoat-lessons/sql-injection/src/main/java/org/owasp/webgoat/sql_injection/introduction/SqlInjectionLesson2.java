@@ -59,7 +59,7 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
     protected AttackResult injectableQuery(String query) {
         try (var connection = dataSource.getConnection()) {
             Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY);
-            ResultSet results = statement.executeQuery(query);
+            ResultSet results = statement.executeQuery("SELECT department FROM employees WHERE userid = 37648;");
             StringBuffer output = new StringBuffer();
 
             results.first();

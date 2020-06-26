@@ -55,8 +55,10 @@ public class VulnerableTaskHolder implements Serializable {
 		if ((taskAction.startsWith("sleep")||taskAction.startsWith("ping"))
 				&& taskAction.length() < 22) {
 		log.info("about to execute: {}", taskAction);
+
+    Process p = null;
 		try {
-            Process p = Runtime.getRuntime().exec(taskAction);
+            p = Runtime.getRuntime().exec(taskAction);
             BufferedReader in = new BufferedReader(
                                 new InputStreamReader(p.getInputStream()));
             String line = null;
@@ -65,6 +67,8 @@ public class VulnerableTaskHolder implements Serializable {
             }
         } catch (IOException e) {
             log.error("IO Exception", e);
+        } finally {
+            if (p != null) p.destroy();
         }
 		}
        

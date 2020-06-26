@@ -26,6 +26,7 @@ import org.dummy.insecure.framework.VulnerableTaskHolder;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.deserialization.SerializationHelper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,7 +36,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @AssignmentHints({"insecure-deserialization.hints.1", "insecure-deserialization.hints.2", "insecure-deserialization.hints.3"})
@@ -51,9 +55,11 @@ public class InsecureDeserializationTask extends AssignmentEndpoint {
 
         b64token = token.replace('-', '+').replace('_', '/');
 
-        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
+        try {
             before = System.currentTimeMillis();
-            Object o = ois.readObject();
+            Set whitelist = new HashSet<String>(Arrays.asList(new String[]{"org.dummy.insecure.framework.VulnerableTaskHolder",
+                                                                           "java.lang.String"}));
+            Object o = SerializationHelper.fromString(b64token, whitelist);
             if (!(o instanceof VulnerableTaskHolder)) {
                 if (o instanceof String) {
                     return failed(this).feedback("insecure-deserialization.stringobject").build();

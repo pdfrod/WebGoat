@@ -29,11 +29,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.umd.cs.findbugs.annotations.*;
+
 @RestController
 public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
 
     @RequestMapping(path = "/HttpProxies/intercept-request", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
+    @SuppressFBWarnings(value = "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING",
+                        justification = "This handler safely handles POST requests")
     public AttackResult completed(@RequestHeader(value = "x-request-intercepted", required = false) Boolean headerValue,
                                   @RequestParam(value = "changeMe", required = false) String paramValue, HttpServletRequest request) {
         if (HttpMethod.POST.matches(request.getMethod())) {

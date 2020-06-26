@@ -47,6 +47,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(MailboxController.class)
@@ -81,7 +82,9 @@ public class MailboxControllerTest {
                 .title("Click this mail")
                 .time(LocalDateTime.now())
                 .build();
-        this.mvc.perform(post("/mail").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(email)))
+        this.mvc.perform(post("/mail").contentType(MediaType.APPLICATION_JSON)
+                                      .content(objectMapper.writeValueAsBytes(email))
+                                      .with(csrf()))
                 .andExpect(status().isOk());
     }
 

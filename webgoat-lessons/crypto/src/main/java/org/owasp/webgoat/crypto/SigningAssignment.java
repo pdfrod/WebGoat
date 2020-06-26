@@ -36,6 +36,7 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SigningAssignment extends AssignmentEndpoint {
 	
-	@RequestMapping(path="/crypto/signing/getprivate",produces=MediaType.TEXT_HTML_VALUE)
+	@RequestMapping(path="/crypto/signing/getprivate", method = RequestMethod.GET, produces=MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String getPrivateKey(HttpServletRequest request) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 		

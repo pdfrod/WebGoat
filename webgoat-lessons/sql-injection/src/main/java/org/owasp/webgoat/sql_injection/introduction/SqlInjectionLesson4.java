@@ -56,8 +56,6 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
     protected AttackResult injectableQuery(String query) {
         try (Connection connection = dataSource.getConnection()) {
             try (Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
-                statement.executeUpdate(query);
-                connection.commit();
                 ResultSet results = statement.executeQuery("SELECT phone from employees;");
                 StringBuffer output = new StringBuffer();
                 // user completes lesson if column phone exists

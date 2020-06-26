@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 import java.io.*;
+import edu.umd.cs.findbugs.annotations.*;
 
 /**
  * MD5 hash generator.
@@ -46,6 +47,7 @@ public class MD5 {
      * @param args command line arguments
      * @since ostermillerutils 1.00.00
      */
+    @SuppressFBWarnings(value="PATH_TRAVERSAL_IN")
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("Please specify a file.");
@@ -165,10 +167,14 @@ public class MD5 {
      * @since ostermillerutils 1.00.00
      */
     public static byte[] getHash(File f) throws IOException {
-        InputStream is = new FileInputStream(f);
-        byte[] hash = getHash(is);
-        is.close();
-        return hash;
+        InputStream is = null;
+        try {
+            is = new FileInputStream(f);
+            byte[] hash = getHash(is);
+            return hash;
+        } finally {
+            if (is != null) is.close();
+        }
     }
 
     /**
@@ -180,10 +186,14 @@ public class MD5 {
      * @since ostermillerutils 1.00.00
      */
     public static String getHashString(File f) throws IOException {
-        InputStream is = new FileInputStream(f);
-        String hash = getHashString(is);
-        is.close();
-        return hash;
+        InputStream is = null;
+        try {
+          is = new FileInputStream(f);
+          String hash = getHashString(is);
+          return hash;
+        } finally {
+            if (is != null) is.close();
+        }
     }
 
     /**

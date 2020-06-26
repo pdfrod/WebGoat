@@ -48,14 +48,14 @@ public class IDORViewOtherProfile extends AssignmentEndpoint {
     public AttackResult completed(@PathVariable("userId") String userId, HttpServletResponse resp) {
         Map<String, Object> details = new HashMap<>();
 
-        if (userSessionData.getValue("idor-authenticated-as").equals("tom")) {
+        if ("tom".equals(userSessionData.getValue("idor-authenticated-as"))) {
             //going to use session auth to view this one
             String authUserId = (String) userSessionData.getValue("idor-authenticated-user-id");
             if (userId != null && !userId.equals(authUserId)) {
                 //on the right track
                 UserProfile requestedProfile = new UserProfile(userId);
                 // secure code would ensure there was a horizontal access control check prior to dishing up the requested profile
-                if (requestedProfile.getUserId().equals("2342388")) {
+                if ("2342388".equals(requestedProfile.getUserId())) {
                     return success(this).feedback("idor.view.profile.success").output(requestedProfile.profileToMap().toString()).build();
                 } else {
                     return failed(this).feedback("idor.view.profile.close1").build();

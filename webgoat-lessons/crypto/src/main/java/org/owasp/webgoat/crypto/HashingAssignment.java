@@ -35,9 +35,12 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import edu.umd.cs.findbugs.annotations.*;
 
 @RestController
 @AssignmentHints({"crypto-hashing.hints.1","crypto-hashing.hints.2"})
@@ -45,8 +48,10 @@ public class HashingAssignment extends AssignmentEndpoint {
 	
 	public static final String[] SECRETS = {"secret","admin","password", "123456", "passw0rd"};
 
-	@RequestMapping(path="/crypto/hashing/md5",produces=MediaType.TEXT_HTML_VALUE)
+	@RequestMapping(path="/crypto/hashing/md5", method = RequestMethod.GET, produces=MediaType.TEXT_HTML_VALUE)
     @ResponseBody
+    @SuppressFBWarnings(value = "WEAK_MESSAGE_DIGEST_MD5",
+                        justification = "MD5 is just used for demonstration purposes here")
     public String getMd5(HttpServletRequest request) throws NoSuchAlgorithmException {
 		
 		String md5Hash = (String) request.getSession().getAttribute("md5Hash");
@@ -65,7 +70,7 @@ public class HashingAssignment extends AssignmentEndpoint {
 		return md5Hash;
     }
 	
-	@RequestMapping(path="/crypto/hashing/sha256",produces=MediaType.TEXT_HTML_VALUE)
+	@RequestMapping(path="/crypto/hashing/sha256", method = RequestMethod.GET, produces=MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String getSha256(HttpServletRequest request) throws NoSuchAlgorithmException {
 		

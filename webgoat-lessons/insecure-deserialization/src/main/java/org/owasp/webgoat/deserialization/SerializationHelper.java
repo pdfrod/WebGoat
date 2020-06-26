@@ -4,23 +4,35 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.io.Serializable;
 import java.util.Base64;
+import java.util.Set;
+
+import edu.umd.cs.findbugs.annotations.*;
 
 public class SerializationHelper {
 
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
-    public static Object fromString(String s) throws IOException,
+    @SuppressFBWarnings(value="OBJECT_DESERIALIZATION",
+                        justification="Only whitelisted classes are allowed to be deserialized")
+    public static Object fromString(String s, Set whitelist) throws IOException,
             ClassNotFoundException {
+
+        Object ret = null;
         byte[] data = Base64.getDecoder().decode(s);
-        ObjectInputStream ois = new ObjectInputStream(
-                new ByteArrayInputStream(data));
-        Object o = ois.readObject();
-        ois.close();
-        return o;
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(data)) {
+            try (WhitelistedObjectInputStream ois = new WhitelistedObjectInputStream(bais, whitelist)) {
+                ret = ois.readObject();
+            }
+        }
+        return ret;
     }
 
     public static String toString(Serializable o) throws IOException {
@@ -51,4 +63,22 @@ public class SerializationHelper {
         return new String(hexChars);
     }
 
+    // Copied from:
+    // https://wiki.sei.cmu.edu/confluence/display/java/SER12-J.+Prevent+deserialization+of+untrusted+data
+    static class WhitelistedObjectInputStream extends ObjectInputStream {
+        public Set whitelist;
+
+        public WhitelistedObjectInputStream(InputStream inputStream, Set wl) throws IOException {
+            super(inputStream);
+            whitelist = wl;
+        }
+
+        @Override
+        protected Class<?> resolveClass(ObjectStreamClass cls) throws IOException, ClassNotFoundException {
+            if (!whitelist.contains(cls.getName())) {
+                throw new InvalidClassException("Unexpected serialized class", cls.getName());
+            }
+            return super.resolveClass(cls);
+        }
+    }
 }

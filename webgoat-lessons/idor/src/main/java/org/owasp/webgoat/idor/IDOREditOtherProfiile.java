@@ -77,14 +77,15 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
                     .feedback("idor.edit.profile.failure3")
                     .output(currentUserProfile.profileToMap().toString())
                     .build();
-        } else if (userSubmittedProfile.getUserId().equals(authUserId)) {
+        } else if (userSubmittedProfile.getUserId() != null &&
+                   userSubmittedProfile.getUserId().equals(authUserId)) {
             return failed(this).feedback("idor.edit.profile.failure4").build();
         }
 
-        if (currentUserProfile.getColor().equals("black") && currentUserProfile.getRole() <= 1) {
+        if ("black".equals(currentUserProfile.getColor()) && currentUserProfile.getRole() <= 1) {
             return success(this)
                     .feedback("idor.edit.profile.success2")
-                    .output(userSessionData.getValue("idor-updated-own-profile").toString())
+                    .output(userSessionData.getValueOr("idor-updated-own-profile", "").toString())
                     .build();
         } else {
             return failed(this).feedback("idor.edit.profile.failure3").build();
