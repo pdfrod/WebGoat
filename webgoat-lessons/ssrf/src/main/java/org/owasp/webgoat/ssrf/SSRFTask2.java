@@ -51,7 +51,7 @@ public class SSRFTask2 extends AssignmentEndpoint {
             StringBuffer html = new StringBuffer();
 
             if (url.matches("http://ifconfig.pro")) {
-                URL u = new URL(url);
+                URL u = new URL("http://ifconfig.pro");
                 URLConnection urlConnection = u.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String inputLine;
