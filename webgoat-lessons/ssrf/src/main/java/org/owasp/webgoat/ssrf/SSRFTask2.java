@@ -49,30 +49,36 @@ public class SSRFTask2 extends AssignmentEndpoint {
 
     protected AttackResult furBall(String url) {
         try {
-            StringBuffer html = new StringBuffer();
+            HttpURLConnection urlConnection = null;
+            BufferedReader in = null;
 
-            if (url.matches("http://ifconfig.pro")) {
-                URL u = new URL("http://ifconfig.pro");
-                HttpURLConnection urlConnection = (HttpURLConnection)u.openConnection();
-                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String inputLine;
+            try {
+                StringBuffer html = new StringBuffer();
 
-                while ((inputLine = in.readLine()) != null) {
-                    html.append(inputLine);
+                if (url.matches("http://ifconfig.pro")) {
+                    URL u = new URL("http://ifconfig.pro");
+                    urlConnection = (HttpURLConnection)u.openConnection();
+                    in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    String inputLine;
+
+                    while ((inputLine = in.readLine()) != null) {
+                        html.append(inputLine);
+                    }
+
+                    return success(this)
+                            .feedback("ssrf.success")
+                            .output(html.toString())
+                            .build();
+                } else {
+                    html.append("<img class=\"image\" alt=\"image post\" src=\"images/cat.jpg\">");
+                    return failed(this)
+                            .feedback("ssrf.failure")
+                            .output(html.toString())
+                            .build();
                 }
-                in.close();
-                urlConnection.disconnect();
-
-                return success(this)
-                        .feedback("ssrf.success")
-                        .output(html.toString())
-                        .build();
-            } else {
-                html.append("<img class=\"image\" alt=\"image post\" src=\"images/cat.jpg\">");
-                return failed(this)
-                        .feedback("ssrf.failure")
-                        .output(html.toString())
-                        .build();
+            } finally {
+                if (in != null) in.close();
+                if (urlConnection != null) urlConnection.disconnect();
             }
         } catch (Exception e) {
             e.printStackTrace();
